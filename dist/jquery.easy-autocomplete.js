@@ -12,6 +12,8 @@
  */
 var EasyAutocomplete = (function(scope){
 
+	var ajax; // <RJ, 18.12.2018 13:08:18> aby slo zrusit predchozi pozadavek
+
 	scope.Configuration = function Configuration(options) {
 		var defaults = {
 			data: "list-required",
@@ -1364,7 +1366,9 @@ var EasyAutocomplete = (function(scope) {
 
 							settings.data = config.get("preparePostData")(settings.data, inputPhrase);
 
-							$.ajax(settings) 
+							if (typeof ajax != 'undefined') { ajax.abort(); }
+
+							ajax = $.ajax(settings) 
 								.done(function(data) {
 
 									var listBuilders = listBuilderService.init(data);
@@ -1575,6 +1579,9 @@ var EasyAutocomplete = (function(scope) {
 
 		});
 	};
+
+
+
 
 	$.fn.getSelectedItemIndex = function() {
 
